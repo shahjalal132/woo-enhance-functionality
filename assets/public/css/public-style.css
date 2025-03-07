@@ -1,4 +1,56 @@
+:root {
+  --primary-color: #00762c;
+}
+
 /* Public Styles CSS Codes */
 .product_meta span.posted_in {
-    display: none ! important;
+  display: none !important;
+}
+
+.custom-product-options {
+  margin-top: 20px;
+  width: 50%;
+}
+
+.quantity-wrapper {
+  margin-top: 10px;
+}
+
+.product-unit-wrapper {
+  margin-top: 5px;
+}
+
+.custom-product-options label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.custom-product-options select,
+.custom-product-options input {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 5px;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+#custom-add-to-cart {
+  margin-top: 15px;
+  display: block;
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#custom-add-to-cart:hover {
+  background-color: var(--primary-color);
 }
