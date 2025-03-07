@@ -18,5 +18,13 @@ function put_program_logs( $data ) {
 
     // Write the log entry to the file
     file_put_contents( $file_name, $data . "\n\n", FILE_APPEND | LOCK_EX );
-    file_put_contents( $file_name_txt, $data . "\n\n", FILE_APPEND | LOCK_EX );
+    // file_put_contents( $file_name_txt, $data . "\n\n", FILE_APPEND | LOCK_EX );
 }
+
+
+/* add_filter('template_include', function($template) {
+    if (is_singular('product')) {
+        put_program_logs("WooCommerce Single Product Template: " . $template);
+    }
+    return $template;
+}, 99); */

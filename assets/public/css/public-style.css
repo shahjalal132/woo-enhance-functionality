@@ -1,1 +1,4 @@
 /* Public Styles CSS Codes */
+.product_meta span.posted_in {
+    display: none ! important;
+}
