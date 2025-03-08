@@ -54,3 +54,35 @@
 #custom-add-to-cart:hover {
   background-color: var(--primary-color);
 }
+
+.col-xs-12.col-md-3.col-md-pull-9 {
+  display: none;
+}
+
+/* loader */
+.loader-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px dotted #fff;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 2s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.button-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
