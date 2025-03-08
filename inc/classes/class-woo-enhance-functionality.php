@@ -22,27 +22,46 @@ class Woo_Enhance_Functionality {
     }
 
     public function custom_product_fields() {
+        // Ensure we are on a single product page
+        if ( !is_product() ) {
+            return;
+        }
+
+        // Get the product ID
+        $product_id = get_the_ID();
+
+        // Get _dropdowns from post meta
+        $dropdowns = get_post_meta( $product_id, '_dropdowns', true );
+
+        // put_program_logs( 'Dropdowns: ' . json_encode( $dropdowns ) );
+
+        if ( empty( $dropdowns['outer_dropdown_repeater'] ) ) {
+            return; // If no dropdowns are set, exit.
+        }
+
         ?>
         <div class="custom-product-options">
 
             <div class="dropdown-wrapper">
-                <!-- Dropdown Field -->
-                <select name="custom_dropdown">
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                </select>
-                
-                <select name="custom_dropdown">
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                </select>
+                <?php foreach ( $dropdowns['outer_dropdown_repeater'] as $dropdown ) : ?>
+                    <div class="dropdown-group">
+                        <label><?php echo esc_html( $dropdown['outer_dropdown_name'] ); ?></label>
+                        <select
+                            name="custom_dropdown[<?php echo esc_attr( sanitize_title( $dropdown['outer_dropdown_name'] ) ); ?>]">
+                            <?php foreach ( $dropdown['inner_dropdown_items'] as $item ) : ?>
+                                <option value="<?php echo esc_attr( $item['inner_dropdown_name'] ); ?>">
+                                    <?php echo esc_html( $item['inner_dropdown_name'] ); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                <?php endforeach; ?>
             </div>
 
             <div class="quantity-wrapper">
-                <!-- Number Input -->
-                <input type="number" id="custom-quantity" name="custom_quantity" min="1" value="1">
+                <!-- Unit Measurements -->
+                <label>Unit Measurements</label>
+                <input type="text" id="unit-measurements" name="unit-measurements">
             </div>
 
             <div class="product-unit-wrapper text-center">
@@ -54,4 +73,5 @@ class Woo_Enhance_Functionality {
         </div>
         <?php
     }
+
 }
