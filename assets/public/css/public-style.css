@@ -41,7 +41,7 @@
 
 #custom-add-to-cart {
   margin-top: 15px;
-  display: block;
+  /* display: block; */
   width: 100%;
   background-color: var(--primary-color);
   color: white;
@@ -49,6 +49,9 @@
   padding: 1.5rem;
   border-radius: 5px;
   cursor: pointer;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 #custom-add-to-cart:hover {

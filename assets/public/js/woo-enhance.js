@@ -5,7 +5,7 @@ jQuery(document).ready(function ($) {
     // get loader wrapper
     const loader_button = $(".add-to-cart-spinner-loader-wrapper");
     // add loading spinner
-    $(loader_button).addClass("loader-spinner");
+    loader_button.addClass("loader-spinner");
 
     var product_id = $(this).data("product-id");
     var custom_dropdown = {};
@@ -19,6 +19,15 @@ jQuery(document).ready(function ($) {
     var unit_measurements = $("#unit-measurements").val();
     var quantity = $("#wef-quantity").val();
 
+    // if quantity is empty return
+    if (!quantity) {
+      // remove loading spinner
+      loader_button.removeClass("loader-spinner");
+      // alert quantity is empty
+      alert("Quantity is empty");
+      return;
+    }
+
     $.ajax({
       type: "POST",
       url: wooEnhanceParams.ajax_url,
@@ -31,7 +40,7 @@ jQuery(document).ready(function ($) {
       },
       success: function (response) {
         // remove loading spinner
-        $(loader_button).removeClass("loader-spinner");
+        loader_button.removeClass("loader-spinner");
         if (response.success) {
           window.location.href = wooEnhanceParams.cart_url;
         } else {

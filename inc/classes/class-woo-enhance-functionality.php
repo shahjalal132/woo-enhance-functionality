@@ -101,9 +101,9 @@ class Woo_Enhance_Functionality {
             </div>
 
             <button id="custom-add-to-cart" data-product-id="<?php echo esc_attr( $product_id ); ?>"
-                class="button alt button-flex">
-                <span>Añadir a la cesta</span>
-                <span class="add-to-cart-spinner-loader-wrapper loader-spinner"></span>
+                class="button alt button-flex" >
+                <span class="text-center">Añadir a la cesta</span>
+                <span class="add-to-cart-spinner-loader-wrapper"></span>
             </button>
         </div>
         <?php
