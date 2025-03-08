@@ -8,3 +8,4 @@ include_once PLUGIN_BASE_PATH . '/inc/libs/codestar-framework/codestar-framework
 
 // include metabox
 include_once PLUGIN_BASE_PATH . '/inc/files/file-metaboxes.php';
+// include_once PLUGIN_BASE_PATH . '/inc/files/file-metabox-module.php';
