@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+  // start: add to cart functionality
   $("#custom-add-to-cart").on("click", function (e) {
     e.preventDefault();
 
@@ -49,4 +50,5 @@ jQuery(document).ready(function ($) {
       },
     });
   });
+  //   end: add to cart functionality
 });

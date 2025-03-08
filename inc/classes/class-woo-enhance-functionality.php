@@ -25,6 +25,9 @@ class Woo_Enhance_Functionality {
 
         add_action( 'wp_ajax_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
         add_action( 'wp_ajax_nopriv_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
+
+        add_action( 'wp_ajax_proceed_to_checkout', [ $this, 'proceed_to_checkout_handler' ] );
+        add_action( 'wp_ajax_nopriv_proceed_to_checkout', [ $this, 'proceed_to_checkout_handler' ] );
     }
 
     function custom_add_to_cart_handler() {
@@ -42,6 +45,14 @@ class Woo_Enhance_Functionality {
         WC()->cart->add_to_cart( $product_id, $quantity, 0, [], $cart_item_data );
 
         wp_send_json_success( [ 'cart_url' => wc_get_cart_url() ] );
+    }
+
+    public function proceed_to_checkout_handler(){
+        // get checkout page url
+        $checkout_url = wc_get_checkout_url();
+
+        // return success response
+        wp_send_json_success( [ 'checkout_url' => $checkout_url ] );
     }
 
     public function enqueue_scripts() {
@@ -103,7 +114,7 @@ class Woo_Enhance_Functionality {
             </div>
 
             <button id="custom-add-to-cart" data-product-id="<?php echo esc_attr( $product_id ); ?>"
-                class="button alt button-flex">
+                class="button alt">
                 <span class="text-center">Añadir a la cesta</span>
                 <span class="add-to-cart-spinner-loader-wrapper"></span>
             </button>
