@@ -61,7 +61,11 @@ class Woo_Enhance_Functionality {
             <div class="quantity-wrapper">
                 <!-- Unit Measurements -->
                 <label>Unit Measurements</label>
-                <input type="text" id="unit-measurements" name="unit-measurements">
+                <input type="text" id="unit-measurements" name="unit-measurements" placeholder="Unit Measurements">
+
+                <!-- Quantity -->
+                <label>Quantity</label>
+                <input type="number" id="wef-quantity" name="wef-quantity" placeholder="Quantity">
             </div>
 
             <div class="product-unit-wrapper text-center">
