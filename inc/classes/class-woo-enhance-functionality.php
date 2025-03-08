@@ -30,10 +30,18 @@ class Woo_Enhance_Functionality {
         // Get the product ID
         $product_id = get_the_ID();
 
+        // Get the product title
+        $product_title = get_the_title( $product_id );
+
+        // Extract height value in different possible formats
+        $formatted_height = '';
+        if ( preg_match( '/(?:H[auteur]*[:\s]*)?([\d,.]+)m/i', $product_title, $matches ) ) {
+            $height           = str_replace( ',', '.', $matches[1] ); // Replace comma with dot for uniformity
+            $formatted_height = preg_replace( '/(\d+)\.(\d+)/', '$1m$2', $height );
+        }
+
         // Get _dropdowns from post meta
         $dropdowns = get_post_meta( $product_id, '_dropdowns', true );
-
-        // put_program_logs( 'Dropdowns: ' . json_encode( $dropdowns ) );
 
         if ( empty( $dropdowns['outer_dropdown_repeater'] ) ) {
             return; // If no dropdowns are set, exit.
@@ -69,11 +77,11 @@ class Woo_Enhance_Functionality {
             </div>
 
             <div class="product-unit-wrapper text-center">
-                <p>Panneau de 10m03</p>
+                <p>Panneau de <?php echo esc_html( $formatted_height ); ?></p>
             </div>
 
             <!-- Custom Add to Cart Button -->
-            <button id="custom-add-to-cart" class="button alt">Add to Cart</button>
+            <button id="custom-add-to-cart" class="button alt">Añadir a la cesta</button>
         </div>
         <?php
     }
