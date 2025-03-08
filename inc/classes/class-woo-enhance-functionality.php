@@ -70,22 +70,24 @@ class Woo_Enhance_Functionality {
 
         ?>
         <div class="custom-product-options">
+
             <div class="dropdown-wrapper">
-                <?php if ( !empty( $dropdowns['outer_dropdown_repeater'] ) ) : ?>
-                    <?php foreach ( $dropdowns['outer_dropdown_repeater'] as $dropdown ) : ?>
-                        <div class="dropdown-group">
-                            <label><?php echo esc_html( $dropdown['outer_dropdown_name'] ); ?></label>
-                            <select
-                                name="custom_dropdown[<?php echo esc_attr( sanitize_title( $dropdown['outer_dropdown_name'] ) ); ?>]">
-                                <?php foreach ( $dropdown['inner_dropdown_items'] as $item ) : ?>
-                                    <option value="<?php echo esc_attr( $item['inner_dropdown_name'] ); ?>">
-                                        <?php echo esc_html( $item['inner_dropdown_name'] ); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                <?php foreach ( $dropdowns['outer_dropdown_repeater'] as $dropdown ) : ?>
+                    <div class="dropdown-group">
+                        <label><?php echo esc_html( $dropdown['outer_dropdown_name'] ); ?></label>
+                        <select
+                            name="custom_dropdown[<?php echo esc_attr( sanitize_title( $dropdown['outer_dropdown_name'] ) ); ?>]">
+                            <!-- Initial "Select" option -->
+                            <option value=""><?php esc_html_e( 'Select', 'your-text-domain' ); ?></option>
+
+                            <?php foreach ( $dropdown['inner_dropdown_items'] as $item ) : ?>
+                                <option value="<?php echo esc_attr( $item['inner_dropdown_name'] ); ?>">
+                                    <?php echo esc_html( $item['inner_dropdown_name'] ); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                <?php endforeach; ?>
             </div>
 
             <div class="quantity-wrapper">
@@ -101,7 +103,7 @@ class Woo_Enhance_Functionality {
             </div>
 
             <button id="custom-add-to-cart" data-product-id="<?php echo esc_attr( $product_id ); ?>"
-                class="button alt button-flex" >
+                class="button alt button-flex">
                 <span class="text-center">Añadir a la cesta</span>
                 <span class="add-to-cart-spinner-loader-wrapper"></span>
             </button>
