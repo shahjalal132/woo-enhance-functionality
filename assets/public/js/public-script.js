@@ -21,6 +21,34 @@
     });
     // end: proceed to checkout process
 
+    // start: handle color dropdown change
+    $(document).on(
+      "change",
+      "select[name='custom_dropdown[color]']",
+      function () {
+        // get current product id
+        let productId = $("#current_product_id").val();
+
+        // get the selected value
+        let selectedColor = $(this).val();
+
+        // make a ajax call to save the color value
+        $.ajax({
+          type: "POST",
+          url: wpb_public_localize.ajax_url,
+          data: {
+            action: "handle_save_color_dropdown_value",
+            productId: productId,
+            selectedColor: selectedColor,
+          },
+          success: function (response) {
+            // console.log(response);
+          },
+        });
+      }
+    );
+    // end: handle color dropdown change
+
     // start: handle height dropdown change
     $(document).on(
       "change",

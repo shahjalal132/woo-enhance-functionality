@@ -34,6 +34,26 @@ class Woo_Enhance_Functionality {
         // handle height values ajax handler
         add_action( 'wp_ajax_handle_save_height_dropdown_value', [ $this, 'handle_save_height_dropdown_value_handler' ] );
         add_action( 'wp_ajax_nopriv_handle_save_height_dropdown_value', [ $this, 'handle_save_height_dropdown_value_handler' ] );
+
+        // handle color values ajax handler
+        add_action( 'wp_ajax_handle_save_color_dropdown_value', [ $this, 'handle_save_color_dropdown_value_handler' ] );
+        add_action( 'wp_ajax_nopriv_handle_save_color_dropdown_value', [ $this, 'handle_save_color_dropdown_value_handler' ] );
+    }
+
+    public function handle_save_color_dropdown_value_handler() {
+        // get product id and others values
+        $productId     = isset( $_POST['productId'] ) ? intval( $_POST['productId'] ) : 0;
+        $selectedColor = isset( $_POST['selectedColor'] ) ? sanitize_text_field( $_POST['selectedColor'] ) : '';
+
+        if ( empty( $productId ) || empty( $selectedColor ) ) {
+            wp_send_json_error( "Invalid data" );
+        }
+
+        // update post meta
+        update_post_meta( $productId, '_selected_color', $selectedColor );
+
+        // return success response
+        wp_send_json_success( "Saved successfully" );
     }
 
     public function handle_save_height_dropdown_value_handler() {
