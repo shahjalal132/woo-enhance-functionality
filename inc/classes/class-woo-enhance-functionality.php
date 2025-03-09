@@ -23,23 +23,21 @@ class Woo_Enhance_Functionality {
         add_action( 'woocommerce_checkout_create_order_line_item', [ $this, 'add_custom_data_to_order' ], 10, 4 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 
-        // add_action( 'wp_ajax_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
-        // add_action( 'wp_ajax_nopriv_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
+        add_action( 'wp_ajax_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
+        add_action( 'wp_ajax_nopriv_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
 
         add_action( 'wp_ajax_proceed_to_checkout', [ $this, 'proceed_to_checkout_handler' ] );
         add_action( 'wp_ajax_nopriv_proceed_to_checkout', [ $this, 'proceed_to_checkout_handler' ] );
     }
 
     function custom_add_to_cart_handler() {
-        $product_id        = isset( $_POST['product_id'] ) ? intval( $_POST['product_id'] ) : 0;
-        $custom_dropdown   = isset( $_POST['custom_dropdown'] ) ? $_POST['custom_dropdown'] : [];
-        $unit_measurements = isset( $_POST['unit_measurements'] ) ? sanitize_text_field( $_POST['unit_measurements'] ) : '';
-        $quantity          = isset( $_POST['quantity'] ) ? intval( $_POST['quantity'] ) : 1;
+        $product_id      = isset( $_POST['product_id'] ) ? intval( $_POST['product_id'] ) : 0;
+        $custom_dropdown = isset( $_POST['custom_dropdown'] ) ? $_POST['custom_dropdown'] : [];
+        $quantity        = isset( $_POST['quantity'] ) ? intval( $_POST['quantity'] ) : 1;
 
         $cart_item_data = [
-            'custom_dropdown'   => $custom_dropdown,
-            'unit_measurements' => $unit_measurements,
-            'quantity'          => $quantity,
+            'custom_dropdown' => $custom_dropdown,
+            'quantity'        => $quantity,
         ];
 
         WC()->cart->add_to_cart( $product_id, $quantity, 0, [], $cart_item_data );
@@ -89,12 +87,14 @@ class Woo_Enhance_Functionality {
         ?>
         <div class="custom-product-options">
 
-            <div class="selected-price">
-                <h3><?php echo wc_price( $price ); ?></h3>
-            </div>
+            <div class="excerpt-price-wrapper">
+                <div class="selected-price">
+                    <h3><?php echo wc_price( $price ); ?></h3>
+                </div>
 
-            <div class="meta-description">
-                <p><?php echo wp_kses_post( $excerpt ); ?></p>
+                <div class="meta-description">
+                    <p><?php echo wp_kses_post( $excerpt ); ?></p>
+                </div>
             </div>
 
             <div class="dropdown-wrapper">

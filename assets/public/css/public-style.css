@@ -37,7 +37,7 @@
   font-weight: bold;
 }
 
-.selected-price h3{
+.selected-price h3 {
   color: var(--primary-color);
 }
 
@@ -102,3 +102,13 @@
   }
 }
 
+/* hide existing add to cart */
+.woocommerce ul.products li.product .button {
+  display: none;
+}
+.eael-star-rating.star-rating {
+  display: none !important;
+}
+form.cart {
+  display: none;
+}

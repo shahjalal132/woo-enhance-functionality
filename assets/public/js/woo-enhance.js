@@ -17,7 +17,6 @@ jQuery(document).ready(function ($) {
       custom_dropdown[key] = value;
     });
 
-    var unit_measurements = $("#unit-measurements").val();
     var quantity = $("#wef-quantity").val();
 
     // if quantity is empty return
@@ -36,7 +35,6 @@ jQuery(document).ready(function ($) {
         action: "custom_add_to_cart",
         product_id: product_id,
         custom_dropdown: custom_dropdown,
-        unit_measurements: unit_measurements,
         quantity: quantity,
       },
       success: function (response) {
