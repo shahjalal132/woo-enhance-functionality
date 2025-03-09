@@ -46,6 +46,13 @@
         // display dropdown-selected-state
         $(".dropdown-selected-state").show();
 
+        if (selectedPrice == "") {
+          // hide dropdown-selected-state
+          $(".dropdown-selected-state").hide();
+          // display dropdown-not-selected-state
+          $(".dropdown-not-selected-state").show();
+        }
+
         // get dropdown selected label
         let selectedLabel = $(this).find("option:selected").text();
         // trim the label
