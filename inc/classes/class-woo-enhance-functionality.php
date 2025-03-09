@@ -105,22 +105,28 @@ class Woo_Enhance_Functionality {
                 ?>
             </div>
 
-            <!-- <div class="quantity-wrapper">
-                <label>Unit Measurements</label>
-                <input type="text" id="unit-measurements" name="unit-measurements" placeholder="Unit Measurements">
+            <div class="quantity-wrapper">
 
-                <label>Quantity</label>
-                <input type="number" id="wef-quantity" name="wef-quantity" placeholder="Quantity">
-            </div> -->
+                <!-- <label>Unit Measurements</label>
+                <input type="text" id="unit-measurements" name="unit-measurements" placeholder="Unit Measurements"> -->
 
-            <div class="product-unit-wrapper text-center">
-                <p>Panneau de <?php echo esc_html( $formatted_height ); ?></p>
+                <div class="quantity-field">
+                    <label>Quantity</label>
+                    <input type="number" id="wef-quantity" name="wef-quantity" placeholder="Quantity">
+
+                    <div class="product-unit-wrapper text-center">
+                        <p>Panneau de <?php echo esc_html( $formatted_height ); ?></p>
+                    </div>
+                </div>
+
+                <div class="add-to-cart-button-wrapper">
+                    <button id="custom-add-to-cart" data-product-id="<?php // echo esc_attr( $product_id ); ?>"
+                        class="button alt">
+                        <span class="text-center">Add to cart</span>
+                        <span class="add-to-cart-spinner-loader-wrapper"></span>
+                    </button>
+                </div>
             </div>
-
-            <!-- <button id="custom-add-to-cart" data-product-id="<?php // echo esc_attr( $product_id ); ?>" class="button alt">
-                <span class="text-center">Añadir a la cesta</span>
-                <span class="add-to-cart-spinner-loader-wrapper"></span>
-            </button> -->
         </div>
         <?php
     }

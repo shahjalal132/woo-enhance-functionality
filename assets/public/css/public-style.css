@@ -9,10 +9,21 @@
 
 .custom-product-options {
   margin-top: 20px;
+  width: 100%;
+}
+
+.dropdown-group {
+  width: 50%;
+}
+
+.quantity-field {
   width: 50%;
 }
 
 .quantity-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 10px;
 }
 
@@ -43,11 +54,15 @@
   margin-top: 15px;
   /* display: block; */
   width: 100%;
+  text-transform: uppercase;
+  height: 54px;
+  font-size: 14px;
+  vertical-align: middle;
+  padding: 19px 22px;
   background-color: var(--primary-color);
   color: white;
   border: none;
-  padding: 1.5rem;
-  border-radius: 5px;
+  border-radius: 1px;
   cursor: pointer;
   display: flex;
   justify-content: space-around;
