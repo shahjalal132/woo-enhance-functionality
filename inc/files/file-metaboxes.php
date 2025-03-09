@@ -47,6 +47,12 @@ if ( class_exists( 'CSF' ) ) {
                                 'title'       => 'Item Name',
                                 'placeholder' => 'Item Name',
                             ),
+                            array(
+                                'id'          => 'inner_dropdown_value',
+                                'type'        => 'text',
+                                'title'       => 'Item Value',
+                                'placeholder' => 'Item Value',
+                            ),
                         ),
                     )
                 ),

@@ -22,14 +22,14 @@ function put_program_logs( $data ) {
 }
 
 
-/* add_filter('template_include', function($template) {
+add_filter('template_include', function($template) {
     if (is_singular('product')) {
         put_program_logs("WooCommerce Single Product Template: " . $template);
     }
     return $template;
-}, 99); */
+}, 99);
 
 // hide product price
-add_action( 'woocommerce_single_product_summary', function() {
-    remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
-}, 1 );
+// add_action( 'woocommerce_single_product_summary', function() {
+//     remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+// }, 1 );
