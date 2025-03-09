@@ -23,14 +23,40 @@ class Woo_Enhance_Functionality {
         add_action( 'woocommerce_checkout_create_order_line_item', [ $this, 'add_custom_data_to_order' ], 10, 4 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 
+        // add to cart ajax handler
         add_action( 'wp_ajax_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
         add_action( 'wp_ajax_nopriv_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
 
+        // proceed to checkout ajax handler
         add_action( 'wp_ajax_proceed_to_checkout', [ $this, 'proceed_to_checkout_handler' ] );
         add_action( 'wp_ajax_nopriv_proceed_to_checkout', [ $this, 'proceed_to_checkout_handler' ] );
+
+        // handle height values ajax handler
+        add_action( 'wp_ajax_handle_save_height_dropdown_value', [ $this, 'handle_save_height_dropdown_value_handler' ] );
+        add_action( 'wp_ajax_nopriv_handle_save_height_dropdown_value', [ $this, 'handle_save_height_dropdown_value_handler' ] );
     }
 
-    function custom_add_to_cart_handler() {
+    public function handle_save_height_dropdown_value_handler() {
+        // get product id and others values
+        $productId     = isset( $_POST['productId'] ) ? intval( $_POST['productId'] ) : 0;
+        $selectedPrice = isset( $_POST['selectedPrice'] ) ? sanitize_text_field( $_POST['selectedPrice'] ) : '';
+        // replace , to . to make it float
+        $selectedPrice = str_replace( ',', '.', $selectedPrice );
+        $selectedLabel = isset( $_POST['selectedLabel'] ) ? sanitize_text_field( $_POST['selectedLabel'] ) : '';
+
+        if ( empty( $productId ) || empty( $selectedPrice ) || empty( $selectedLabel ) ) {
+            wp_send_json_error( "Invalid data" );
+        }
+
+        // update post meta
+        update_post_meta( $productId, '_selected_price', $selectedPrice );
+        update_post_meta( $productId, '_selected_label', $selectedLabel );
+
+        // return success response
+        wp_send_json_success( "Saved successfully" );
+    }
+
+    public function custom_add_to_cart_handler() {
         $product_id      = isset( $_POST['product_id'] ) ? intval( $_POST['product_id'] ) : 0;
         $custom_dropdown = isset( $_POST['custom_dropdown'] ) ? $_POST['custom_dropdown'] : [];
         $quantity        = isset( $_POST['quantity'] ) ? intval( $_POST['quantity'] ) : 1;
@@ -88,13 +114,25 @@ class Woo_Enhance_Functionality {
         <div class="custom-product-options">
 
             <div class="excerpt-price-wrapper">
-                <div class="selected-price">
-                    <h3><?php echo wc_price( $price ); ?></h3>
+
+                <!-- hidden input to store product id -->
+                <input type="hidden" name="product_id" id="current_product_id" value="<?php echo esc_attr( $product_id ); ?>">
+
+                <div class="dropdown-not-selected-state">
+                    <p>Select a color and height below to display the price </p>
                 </div>
 
-                <div class="meta-description">
-                    <p><?php echo wp_kses_post( $excerpt ); ?></p>
+                <!-- start: dropdown selected state -->
+                <div class="dropdown-selected-state wef-d-none">
+                    <div>
+                        <h3 class="selected-price"><?php echo wc_price( $price ); ?></h3>
+                    </div>
+
+                    <div class="meta-description">
+                        <p><?php echo wp_kses_post( $excerpt ); ?></p>
+                    </div>
                 </div>
+                <!-- end: dropdown selected state -->
             </div>
 
             <div class="dropdown-wrapper">
@@ -104,12 +142,13 @@ class Woo_Enhance_Functionality {
                         <div class="dropdown-group">
                             <label><?php echo esc_html( $dropdown['outer_dropdown_name'] ); ?></label>
                             <select
-                                name="custom_dropdown[<?php echo esc_attr( sanitize_title( $dropdown['outer_dropdown_name'] ) ); ?>]">
+                                name="custom_dropdown[<?php echo esc_attr( sanitize_title( $dropdown['outer_dropdown_name'] ) ); ?>]"
+                                id="custom_dropdown[<?php echo esc_attr( sanitize_title( $dropdown['outer_dropdown_name'] ) ); ?>]">
                                 <!-- Initial "Select" option -->
-                                <option value=""><?php esc_html_e( 'Select', 'your-text-domain' ); ?></option>
+                                <option value=""><?php esc_html_e( 'Sélectionner une hauteur', 'wef' ); ?></option>
 
                                 <?php foreach ( $dropdown['inner_dropdown_items'] as $item ) : ?>
-                                    <option value="<?php echo esc_attr( $item['inner_dropdown_name'] ); ?>">
+                                    <option value="<?php echo esc_attr( $item['inner_dropdown_value'] ); ?>">
                                         <?php echo esc_html( $item['inner_dropdown_name'] ); ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -127,13 +166,13 @@ class Woo_Enhance_Functionality {
                     <input type="number" id="wef-quantity" name="wef-quantity" placeholder="Quantity">
 
                     <div class="product-unit-wrapper text-center">
-                        <p>Panneau de <?php echo esc_html( $formatted_height ); ?></p>
+                        <p>Panneau de <span
+                                class="replace-to-formatted-height"><?php echo esc_html( $formatted_height ); ?></span></p>
                     </div>
                 </div>
 
                 <div class="add-to-cart-button-wrapper">
-                    <button id="custom-add-to-cart" data-product-id="<?php // echo esc_attr( $product_id ); ?>"
-                        class="button alt">
+                    <button id="custom-add-to-cart" data-product-id="<?php echo esc_attr( $product_id ); ?>" class="button alt">
                         <span class="text-center">Add to cart</span>
                         <span class="add-to-cart-spinner-loader-wrapper"></span>
                     </button>

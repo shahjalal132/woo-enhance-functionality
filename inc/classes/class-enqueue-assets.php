@@ -55,6 +55,9 @@ class Enqueue_Assets {
      */
     public function enqueue_public_assets() {
 
+        // get currency symbol
+        $currency_symbol = get_woocommerce_currency_symbol();
+
         // enqueue public css
         wp_enqueue_style( "wpb-bootstrap", PLUGIN_PUBLIC_ASSETS_URL . "/css/bootstrap.min.css", [], time(), "all" );
         wp_enqueue_style( "wpb-public-css", PLUGIN_PUBLIC_ASSETS_URL . "/css/public-style.css", [], time(), "all" );
@@ -66,6 +69,7 @@ class Enqueue_Assets {
         wp_localize_script( "wpb-public-js", "wpb_public_localize", array(
             "ajax_url" => admin_url( "admin-ajax.php" ),
             'nonce'    => wp_create_nonce( 'wpb_public_nonce' ),
+            'currency_symbol' => $currency_symbol
         ) );
     }
 
