@@ -28,3 +28,8 @@ function put_program_logs( $data ) {
     }
     return $template;
 }, 99); */
+
+// hide product price
+add_action( 'woocommerce_single_product_summary', function() {
+    remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+}, 1 );

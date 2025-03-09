@@ -23,8 +23,8 @@ class Woo_Enhance_Functionality {
         add_action( 'woocommerce_checkout_create_order_line_item', [ $this, 'add_custom_data_to_order' ], 10, 4 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 
-        add_action( 'wp_ajax_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
-        add_action( 'wp_ajax_nopriv_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
+        // add_action( 'wp_ajax_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
+        // add_action( 'wp_ajax_nopriv_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
 
         add_action( 'wp_ajax_proceed_to_checkout', [ $this, 'proceed_to_checkout_handler' ] );
         add_action( 'wp_ajax_nopriv_proceed_to_checkout', [ $this, 'proceed_to_checkout_handler' ] );
@@ -47,7 +47,7 @@ class Woo_Enhance_Functionality {
         wp_send_json_success( [ 'cart_url' => wc_get_cart_url() ] );
     }
 
-    public function proceed_to_checkout_handler(){
+    public function proceed_to_checkout_handler() {
         // get checkout page url
         $checkout_url = wc_get_checkout_url();
 
@@ -83,41 +83,44 @@ class Woo_Enhance_Functionality {
         <div class="custom-product-options">
 
             <div class="dropdown-wrapper">
-                <?php foreach ( $dropdowns['outer_dropdown_repeater'] as $dropdown ) : ?>
-                    <div class="dropdown-group">
-                        <label><?php echo esc_html( $dropdown['outer_dropdown_name'] ); ?></label>
-                        <select
-                            name="custom_dropdown[<?php echo esc_attr( sanitize_title( $dropdown['outer_dropdown_name'] ) ); ?>]">
-                            <!-- Initial "Select" option -->
-                            <option value=""><?php esc_html_e( 'Select', 'your-text-domain' ); ?></option>
+                <?php
+                if ( !empty( $dropdowns ) && is_array( $dropdowns ) ) {
+                    foreach ( $dropdowns['outer_dropdown_repeater'] as $dropdown ) : ?>
+                        <div class="dropdown-group">
+                            <label><?php echo esc_html( $dropdown['outer_dropdown_name'] ); ?></label>
+                            <select
+                                name="custom_dropdown[<?php echo esc_attr( sanitize_title( $dropdown['outer_dropdown_name'] ) ); ?>]">
+                                <!-- Initial "Select" option -->
+                                <option value=""><?php esc_html_e( 'Select', 'your-text-domain' ); ?></option>
 
-                            <?php foreach ( $dropdown['inner_dropdown_items'] as $item ) : ?>
-                                <option value="<?php echo esc_attr( $item['inner_dropdown_name'] ); ?>">
-                                    <?php echo esc_html( $item['inner_dropdown_name'] ); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                <?php endforeach; ?>
+                                <?php foreach ( $dropdown['inner_dropdown_items'] as $item ) : ?>
+                                    <option value="<?php echo esc_attr( $item['inner_dropdown_name'] ); ?>">
+                                        <?php echo esc_html( $item['inner_dropdown_name'] ); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php endforeach;
+                }
+                ?>
             </div>
 
-            <div class="quantity-wrapper">
+            <!-- <div class="quantity-wrapper">
                 <label>Unit Measurements</label>
                 <input type="text" id="unit-measurements" name="unit-measurements" placeholder="Unit Measurements">
 
                 <label>Quantity</label>
                 <input type="number" id="wef-quantity" name="wef-quantity" placeholder="Quantity">
-            </div>
+            </div> -->
 
             <div class="product-unit-wrapper text-center">
                 <p>Panneau de <?php echo esc_html( $formatted_height ); ?></p>
             </div>
 
-            <button id="custom-add-to-cart" data-product-id="<?php echo esc_attr( $product_id ); ?>"
-                class="button alt">
+            <!-- <button id="custom-add-to-cart" data-product-id="<?php // echo esc_attr( $product_id ); ?>" class="button alt">
                 <span class="text-center">Añadir a la cesta</span>
                 <span class="add-to-cart-spinner-loader-wrapper"></span>
-            </button>
+            </button> -->
         </div>
         <?php
     }
