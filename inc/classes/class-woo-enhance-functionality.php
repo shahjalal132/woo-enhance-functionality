@@ -79,8 +79,23 @@ class Woo_Enhance_Functionality {
 
         $dropdowns = get_post_meta( $product_id, '_dropdowns', true );
 
+        // get the excerpt
+        $excerpt = get_post_field( 'post_excerpt', $product_id );
+
+        // get the product price
+        $product = wc_get_product( $product_id );
+        $price   = $product->get_price();
+
         ?>
         <div class="custom-product-options">
+
+            <div class="selected-price">
+                <h3><?php echo wc_price( $price ); ?></h3>
+            </div>
+
+            <div class="meta-description">
+                <p><?php echo wp_kses_post( $excerpt ); ?></p>
+            </div>
 
             <div class="dropdown-wrapper">
                 <?php
@@ -106,9 +121,6 @@ class Woo_Enhance_Functionality {
             </div>
 
             <div class="quantity-wrapper">
-
-                <!-- <label>Unit Measurements</label>
-                <input type="text" id="unit-measurements" name="unit-measurements" placeholder="Unit Measurements"> -->
 
                 <div class="quantity-field">
                     <label>Quantity</label>

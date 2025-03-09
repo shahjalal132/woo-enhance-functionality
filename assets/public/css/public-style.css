@@ -37,6 +37,10 @@
   font-weight: bold;
 }
 
+.selected-price h3{
+  color: var(--primary-color);
+}
+
 .custom-product-options select,
 .custom-product-options input {
   width: 100%;
