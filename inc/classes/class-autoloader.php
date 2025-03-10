@@ -19,5 +19,6 @@ class Autoloader {
         Admin_Sub_Menu::get_instance();
         Woo_Enhance_Functionality::get_instance();
         // Metabox_Module::get_instance(); 
+        APIS::get_instance();
     }
 }
