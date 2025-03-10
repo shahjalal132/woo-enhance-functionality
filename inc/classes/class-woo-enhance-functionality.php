@@ -71,6 +71,7 @@ class Woo_Enhance_Functionality {
         // update post meta
         update_post_meta( $productId, '_selected_price', $selectedPrice );
         update_post_meta( $productId, '_selected_label', $selectedLabel );
+        update_post_meta( $productId, '_price', $selectedLabel );
 
         // return success response
         wp_send_json_success( "Saved successfully" );
@@ -139,7 +140,8 @@ class Woo_Enhance_Functionality {
                 <input type="hidden" name="product_id" id="current_product_id" value="<?php echo esc_attr( $product_id ); ?>">
 
                 <div class="dropdown-not-selected-state">
-                    <p>Select a color and height below to display the price </p>
+                    <p class="wef-d-none">Select a color and height below to display the price </p>
+                    <p>Sélectionnez une couleur et une hauteur ci-dessous pour afficher le prix</p>
                 </div>
 
                 <!-- start: dropdown selected state -->

@@ -1,7 +1,7 @@
 {
   "outer_dropdown_repeater": [
     {
-      "outer_dropdown_name": "Color",
+      "outer_dropdown_name": "Couleur",
       "inner_dropdown_items": [
         {
           "inner_dropdown_name": "Gris Anthracite (RAL 7016)",
@@ -14,7 +14,7 @@
       ]
     },
     {
-      "outer_dropdown_name": "Height",
+      "outer_dropdown_name": "Hauteur",
       "inner_dropdown_items": [
         {
           "inner_dropdown_name": "0.83m - 30,00€",
