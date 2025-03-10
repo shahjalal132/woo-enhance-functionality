@@ -121,8 +121,6 @@ class APIS {
         $dropdowns2_file_path = PLUGIN_BASE_PATH . '/data/categoriy2-metabox.json';
         $dropdowns_file_path  = null;
 
-        // Log selected category ID
-        put_program_logs( 'Selected category ID: ' . $category_id );
 
         // Assign the correct dropdown file based on category ID
         if ( $category_id == 39 ) {
@@ -130,9 +128,6 @@ class APIS {
         } else if ( $category_id == 36 ) {
             $dropdowns_file_path = $dropdowns2_file_path;
         }
-
-        // Log selected dropdown file path
-        put_program_logs( 'Selected dropdowns path: ' . $dropdowns_file_path );
 
         if ( !empty( $product_ids ) && is_array( $product_ids ) ) {
             // Load dropdown values from the selected JSON file
