@@ -116,3 +116,7 @@ form.cart {
 .wef-d-none {
   display: none;
 }
+
+.wef-bold{
+  font-weight: bold;
+}

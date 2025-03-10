@@ -1,0 +1,54 @@
+{
+  "outer_dropdown_repeater": [
+    {
+      "outer_dropdown_name": "Color",
+      "inner_dropdown_items": [
+        {
+          "inner_dropdown_name": "Gris Anthracite (RAL 7016)",
+          "inner_dropdown_value": "Gris Anthracite (RAL 7016)"
+        },
+        {
+          "inner_dropdown_name": "Vert (RAL 6005)",
+          "inner_dropdown_value": "Vert (RAL 6005)"
+        }
+      ]
+    },
+    {
+      "outer_dropdown_name": "Height",
+      "inner_dropdown_items": [
+        {
+          "inner_dropdown_name": "0.83m - 30,00€",
+          "inner_dropdown_value": "30,00"
+        },
+        {
+          "inner_dropdown_name": "1.03m - 22,50€",
+          "inner_dropdown_value": "22,50"
+        },
+        {
+          "inner_dropdown_name": "1.23m - 26,75€",
+          "inner_dropdown_value": "26,75"
+        },
+        {
+          "inner_dropdown_name": "1.53m - 29,75€",
+          "inner_dropdown_value": "29,75"
+        },
+        {
+          "inner_dropdown_name": "1.60m - 69,75€",
+          "inner_dropdown_value": "69,75"
+        },
+        {
+          "inner_dropdown_name": "1.73m - 33,75€",
+          "inner_dropdown_value": "33,75"
+        },
+        {
+          "inner_dropdown_name": "2.03m - 34,25€",
+          "inner_dropdown_value": "34,25"
+        },
+        {
+          "inner_dropdown_name": "2.03m - 74,75€",
+          "inner_dropdown_value": "74,75"
+        }
+      ]
+    }
+  ]
+}

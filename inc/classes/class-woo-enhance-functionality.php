@@ -183,11 +183,12 @@ class Woo_Enhance_Functionality {
 
                 <div class="quantity-field">
                     <label>Quantity</label>
-                    <input type="number" id="wef-quantity" name="wef-quantity" placeholder="Quantity">
+                    <input type="number" class="text-center" id="wef-quantity" name="wef-quantity" value="1">
 
                     <div class="product-unit-wrapper text-center">
-                        <p>Panneau de <span
+                        <p class="wef-d-none">Panneau de <span
                                 class="replace-to-formatted-height"><?php echo esc_html( $formatted_height ); ?></span></p>
+                        <p class="wef-bold">Panneau de 2m50 de longueur</p>
                     </div>
                 </div>
 
