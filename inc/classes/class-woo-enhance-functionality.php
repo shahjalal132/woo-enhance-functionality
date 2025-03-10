@@ -71,7 +71,7 @@ class Woo_Enhance_Functionality {
         // update post meta
         update_post_meta( $productId, '_selected_price', $selectedPrice );
         update_post_meta( $productId, '_selected_label', $selectedLabel );
-        update_post_meta( $productId, '_price', $selectedLabel );
+        update_post_meta( $productId, '_price', $selectedPrice );
 
         // return success response
         wp_send_json_success( "Saved successfully" );

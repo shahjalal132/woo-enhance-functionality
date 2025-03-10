@@ -24,8 +24,10 @@
     // start: handle color dropdown change
     $(document).on(
       "change",
-      "select[name='custom_dropdown[color]']",
+      "select[name='custom_dropdown[couleur]']",
       function () {
+        // alert("handle color dropdown change");
+        // return;
         // get current product id
         let productId = $("#current_product_id").val();
 
@@ -52,8 +54,10 @@
     // start: handle height dropdown change
     $(document).on(
       "change",
-      "select[name='custom_dropdown[height]']",
+      "select[name='custom_dropdown[hauteur]']",
       function () {
+        // alert("handle height dropdown change");
+        // return;
         // get the price selector
         let priceToReplace = $(".selected-price");
         // get replace to formatted height selector
