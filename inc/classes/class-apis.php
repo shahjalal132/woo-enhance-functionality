@@ -119,6 +119,7 @@ class APIS {
         // Define file paths for dropdown values based on category ID
         $category_grillage_rigide_dropdowns_file_path = PLUGIN_BASE_PATH . '/data/category-grillage-rigide-metabox.json';
         $category_kit_occultant_dropdowns_file_path   = PLUGIN_BASE_PATH . '/data/category-kit-occultant-metabox.json';
+        $category_portillons_dropdowns_file_path      = PLUGIN_BASE_PATH . '/data/category-portillons-metabox.json';
         $dropdowns_file_path                          = null;
 
         // Assign the correct dropdown file based on category ID
@@ -126,6 +127,8 @@ class APIS {
             $dropdowns_file_path = $category_grillage_rigide_dropdowns_file_path;
         } else if ( $category_id == 36 ) {
             $dropdowns_file_path = $category_kit_occultant_dropdowns_file_path;
+        } else if ( $category_id == 50 ) {
+            $dropdowns_file_path = $category_portillons_dropdowns_file_path;
         }
 
         if ( !empty( $product_ids ) && is_array( $product_ids ) ) {
