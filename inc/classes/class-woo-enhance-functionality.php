@@ -133,7 +133,7 @@ class Woo_Enhance_Functionality {
         }
 
         $dropdowns = get_post_meta( $product_id, '_dropdowns', true );
-        put_program_logs( json_encode( $dropdowns ) );
+        // put_program_logs( json_encode( $dropdowns ) );
 
         // get the excerpt
         $excerpt = get_post_field( 'post_excerpt', $product_id );
