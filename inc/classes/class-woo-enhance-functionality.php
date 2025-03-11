@@ -132,6 +132,16 @@ class Woo_Enhance_Functionality {
         $product = wc_get_product( $product_id );
         $price   = $product->get_price();
 
+        // Define placeholders based on product categories or specific products
+        $unit_placeholder = '';
+        if ( has_term( 'grillage-rigide', 'product_cat', $product->get_id() ) ) {
+            $unit_placeholder = 'Panneau de 2m50 de longueur';
+        } elseif ( has_term( 'kit-occultant', 'product_cat', $product->get_id() ) ) {
+            $unit_placeholder = 'Kit pour 1 Panneau de 2m50 de longueur';
+        }
+
+        // put_program_logs( $unit_placeholder );
+
         ?>
         <div class="custom-product-options">
 
@@ -182,7 +192,13 @@ class Woo_Enhance_Functionality {
                 ?>
             </div>
 
-            <div class="quantity-wrapper">
+            <div class="unit-measurement-wrapper">
+                <label for="unit_measurement"><?php esc_html_e( 'Unité de mesure', 'wef' ); ?></label>
+                <input type="text" id="unit_measurement" name="unit_measurement"
+                    placeholder="<?php echo esc_attr( $unit_placeholder ); ?>">
+            </div>
+
+            <div class=" quantity-wrapper">
 
                 <div class="quantity-field">
                     <label>Quantité</label>

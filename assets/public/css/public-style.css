@@ -12,13 +12,15 @@
   width: 100%;
 }
 
-.dropdown-group {
-  width: 40%;
+.dropdown-group,
+.unit-measurement-wrapper,
+.quantity-field {
+  width: 50%;
 }
 
-.quantity-field {
-  width: 40%;
-}
+/* .quantity-field {
+  width: 50%;
+} */
 
 .quantity-wrapper {
   display: flex;
@@ -56,17 +58,16 @@
 
 #custom-add-to-cart {
   margin-top: 15px;
-  /* display: block; */
   width: 100%;
   text-transform: uppercase;
-  height: 54px;
+  height: 50px;
   font-size: 14px;
   vertical-align: middle;
   padding: 19px 22px;
   background-color: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 1px;
+  border-radius: 5px;
   cursor: pointer;
   display: flex;
   justify-content: space-around;
@@ -117,6 +118,6 @@ form.cart {
   display: none;
 }
 
-.wef-bold{
+.wef-bold {
   font-weight: bold;
 }
