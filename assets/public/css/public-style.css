@@ -13,9 +13,13 @@
 }
 
 .dropdown-group,
-.unit-measurement-wrapper,
+
 .quantity-field {
   width: 50%;
+}
+
+.unit-measurement-wrapper{
+  width: 60%;
 }
 
 /* .quantity-field {
@@ -117,7 +121,22 @@ form.cart {
 .wef-d-none {
   display: none;
 }
+/* end: hide existing add to cart */
 
 .wef-bold {
   font-weight: bold;
+}
+
+@media only screen and (max-width: 500px){
+	/*Small smartphones [325px -> 425px]*/
+  .unit-measurement-wrapper{
+    width: 85%;
+  }
+
+  #custom-add-to-cart{
+    width: 80%;
+    height: 40px;
+    font-size: 12px;
+    margin-top: -13px !important;
+  }
 }
