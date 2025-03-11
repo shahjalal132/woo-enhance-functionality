@@ -133,6 +133,10 @@ form.cart {
     width: 85%;
   }
 
+  #wef-quantity{
+    padding: 8px !important;
+  }
+
   #custom-add-to-cart{
     width: 80%;
     height: 40px;

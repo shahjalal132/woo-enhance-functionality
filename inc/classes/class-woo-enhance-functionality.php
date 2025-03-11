@@ -133,7 +133,7 @@ class Woo_Enhance_Functionality {
         }
 
         $dropdowns = get_post_meta( $product_id, '_dropdowns', true );
-        // put_program_logs( json_encode( $dropdowns ) );
+        put_program_logs( json_encode( $dropdowns ) );
 
         // get the excerpt
         $excerpt = get_post_field( 'post_excerpt', $product_id );
@@ -213,7 +213,7 @@ class Woo_Enhance_Functionality {
 
                 <div class="quantity-field">
                     <label>Quantité</label>
-                    <input type="number" class="text-center" id="wef-quantity" name="wef-quantity" value="1">
+                    <input type="number" class="text-center" id="wef-quantity" name="wef-quantity" placeholder="À l'unité">
 
                     <div class="product-unit-wrapper text-center">
                         <p class="wef-d-none">Panneau de <span
