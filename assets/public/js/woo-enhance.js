@@ -8,16 +8,19 @@ jQuery(document).ready(function ($) {
     // add loading spinner
     loader_button.addClass("loader-spinner");
 
-    var product_id = $(this).data("product-id");
-    var custom_dropdown = {};
+    let product_id = $(this).data("product-id");
+    let custom_dropdown = {};
 
     $(".dropdown-group select").each(function () {
-      var key = $(this).attr("name");
-      var value = $(this).val();
+      let key = $(this).attr("name");
+      let value = $(this).val();
       custom_dropdown[key] = value;
     });
 
-    var quantity = $("#wef-quantity").val();
+    // get quantity
+    let quantity = $("#wef-quantity").val();
+    // get unit measurements
+    let unit_measurements = $("#unit_measurements").val();
 
     // if quantity is empty return
     if (!quantity) {
@@ -35,6 +38,7 @@ jQuery(document).ready(function ($) {
         action: "custom_add_to_cart",
         product_id: product_id,
         custom_dropdown: custom_dropdown,
+        unit_measurements: unit_measurements,
         quantity: quantity,
       },
       success: function (response) {

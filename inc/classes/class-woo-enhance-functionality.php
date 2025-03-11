@@ -17,19 +17,24 @@ class Woo_Enhance_Functionality {
     }
 
     public function setup_hooks() {
-        add_action( 'woocommerce_before_add_to_cart_form', [ $this, 'custom_product_fields' ], 15 );
-        add_filter( 'woocommerce_add_cart_item_data', [ $this, 'add_custom_data_to_cart' ], 10, 2 );
+        // custom product fields
+        add_action( 'woocommerce_before_add_to_cart_form', [ $this, 'frontend_custom_product_fields' ], 15 );
+        // add custom data to cart
+        // add_filter( 'woocommerce_add_cart_item_data', [ $this, 'add_custom_data_to_cart' ], 10, 2 );
+        // add custom data to order
         add_filter( 'woocommerce_get_item_data', [ $this, 'display_custom_data_in_cart' ], 10, 2 );
+        // add custom data to order
         add_action( 'woocommerce_checkout_create_order_line_item', [ $this, 'add_custom_data_to_order' ], 10, 4 );
+        // enqueue scripts
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 
         // add to cart ajax handler
-        add_action( 'wp_ajax_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
-        add_action( 'wp_ajax_nopriv_custom_add_to_cart', [ $this, 'custom_add_to_cart_handler' ] );
+        add_action( 'wp_ajax_custom_add_to_cart', [ $this, 'handle_custom_add_to_cart_handler' ] );
+        add_action( 'wp_ajax_nopriv_custom_add_to_cart', [ $this, 'handle_custom_add_to_cart_handler' ] );
 
         // proceed to checkout ajax handler
-        add_action( 'wp_ajax_proceed_to_checkout', [ $this, 'proceed_to_checkout_handler' ] );
-        add_action( 'wp_ajax_nopriv_proceed_to_checkout', [ $this, 'proceed_to_checkout_handler' ] );
+        add_action( 'wp_ajax_proceed_to_checkout', [ $this, 'handle_proceed_to_checkout_handler' ] );
+        add_action( 'wp_ajax_nopriv_proceed_to_checkout', [ $this, 'handle_proceed_to_checkout_handler' ] );
 
         // handle height values ajax handler
         add_action( 'wp_ajax_handle_save_height_dropdown_value', [ $this, 'handle_save_height_dropdown_value_handler' ] );
@@ -77,14 +82,16 @@ class Woo_Enhance_Functionality {
         wp_send_json_success( "Saved successfully" );
     }
 
-    public function custom_add_to_cart_handler() {
-        $product_id      = isset( $_POST['product_id'] ) ? intval( $_POST['product_id'] ) : 0;
-        $custom_dropdown = isset( $_POST['custom_dropdown'] ) ? $_POST['custom_dropdown'] : [];
-        $quantity        = isset( $_POST['quantity'] ) ? intval( $_POST['quantity'] ) : 1;
+    public function handle_custom_add_to_cart_handler() {
+        $product_id        = isset( $_POST['product_id'] ) ? intval( $_POST['product_id'] ) : 0;
+        $custom_dropdown   = isset( $_POST['custom_dropdown'] ) ? $_POST['custom_dropdown'] : [];
+        $unit_measurements = isset( $_POST['unit_measurements'] ) ? sanitize_text_field( $_POST['unit_measurements'] ) : '';
+        $quantity          = isset( $_POST['quantity'] ) ? intval( $_POST['quantity'] ) : 1;
 
         $cart_item_data = [
-            'custom_dropdown' => $custom_dropdown,
-            'quantity'        => $quantity,
+            'custom_dropdown'   => $custom_dropdown,
+            'unit_measurements' => $unit_measurements,
+            'quantity'          => $quantity,
         ];
 
         WC()->cart->add_to_cart( $product_id, $quantity, 0, [], $cart_item_data );
@@ -92,7 +99,7 @@ class Woo_Enhance_Functionality {
         wp_send_json_success( [ 'cart_url' => wc_get_cart_url() ] );
     }
 
-    public function proceed_to_checkout_handler() {
+    public function handle_proceed_to_checkout_handler() {
         // get checkout page url
         $checkout_url = wc_get_checkout_url();
 
@@ -108,14 +115,17 @@ class Woo_Enhance_Functionality {
         ] );
     }
 
-    public function custom_product_fields() {
+    public function frontend_custom_product_fields() {
         if ( !is_product() ) {
             return;
         }
 
-        $product_id    = get_the_ID();
+        // get the product id
+        $product_id = get_the_ID();
+        // get the product title
         $product_title = get_the_title( $product_id );
 
+        // get the product height
         $formatted_height = '';
         if ( preg_match( '/(?:H[auteur]*[:\s]*)?([\d,.]+)m/i', $product_title, $matches ) ) {
             $height           = str_replace( ',', '.', $matches[1] );
@@ -130,7 +140,8 @@ class Woo_Enhance_Functionality {
 
         // get the product price
         $product = wc_get_product( $product_id );
-        $price   = $product->get_price();
+        // get the product price
+        $price = $product->get_price();
 
         // Define placeholders based on product categories or specific products
         $unit_placeholder = '';
@@ -194,7 +205,7 @@ class Woo_Enhance_Functionality {
 
             <div class="unit-measurement-wrapper">
                 <label for="unit_measurement"><?php esc_html_e( 'Unité de mesure', 'wef' ); ?></label>
-                <input type="text" id="unit_measurement" name="unit_measurement"
+                <input type="text" id="unit_measurements" name="unit_measurements"
                     placeholder="<?php echo esc_attr( $unit_placeholder ); ?>">
             </div>
 
@@ -237,7 +248,7 @@ class Woo_Enhance_Functionality {
 
     public function display_custom_data_in_cart( $item_data, $cart_item ) {
         if ( !empty( $cart_item['custom_dropdown'] ) ) {
-            $dropdown_text   = 'Dropdowns Data'; // Label text
+            $dropdown_text   = 'Données déroulantes'; // Label text
             $dropdown_values = [];
 
             foreach ( $cart_item['custom_dropdown'] as $name => $value ) {
@@ -257,17 +268,17 @@ class Woo_Enhance_Functionality {
 
         if ( !empty( $cart_item['unit_measurements'] ) ) {
             $item_data[] = array(
-                'name'  => 'Unit Measurements',
+                'name'  => 'Unités de mesure',
                 'value' => esc_html( $cart_item['unit_measurements'] ),
             );
         }
 
-        if ( !empty( $cart_item['quantity'] ) ) {
+        /* if ( !empty( $cart_item['quantity'] ) ) {
             $item_data[] = array(
-                'name'  => 'Quantity',
+                'name'  => 'Quantité',
                 'value' => esc_html( $cart_item['quantity'] ),
             );
-        }
+        } */
 
         return $item_data;
     }

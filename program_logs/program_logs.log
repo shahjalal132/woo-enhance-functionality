@@ -1,0 +1,23 @@
+cart_item
+{
+    "custom_dropdown": {
+        "custom_dropdown[couleur": "Gris Anthracite (RAL 7016)",
+        "custom_dropdown[hauteur": "22,50"
+    },
+    "unit_measurements": "3 inch mota, 5 fit ucha, 10 inch lomba",
+    "quantity": 1,
+    "key": "522cecdbdfd9086492d41fb762146ae6",
+    "product_id": 8247,
+    "variation_id": 0,
+    "variation": [],
+    "data_hash": "b5c1d5ca8bae6d4896cf1807cdf763f0",
+    "line_tax_data": {
+        "subtotal": [],
+        "total": []
+    },
+    "line_subtotal": 22.5,
+    "line_subtotal_tax": 0,
+    "line_total": 22.5,
+    "line_tax": 0,
+    "data": {}
+} - 2025-03-11 05:57:43
