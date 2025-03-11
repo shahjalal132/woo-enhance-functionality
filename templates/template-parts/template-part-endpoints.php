@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $base_url = site_url() . '/wp-json/api/v1';
 
@@ -17,8 +17,13 @@ $base_url = site_url() . '/wp-json/api/v1';
         </thead>
         <tbody>
             <tr>
-                <td><?= $base_url ?>/users</td>
-                <td>Get all users</td>
+                <td><?= $base_url ?>/get-product-ids?cid=36</td>
+                <td>Get product ids</td>
+                <td><button class="copy-button">Copy</button></td>
+            </tr>
+            <tr>
+                <td><?= $base_url ?>/set-dropdowns?cid=36</td>
+                <td>Set dropdowns</td>
                 <td><button class="copy-button">Copy</button></td>
             </tr>
         </tbody>

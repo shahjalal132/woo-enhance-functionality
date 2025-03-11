@@ -52,7 +52,7 @@ class Admin_Sub_Menu {
     }
 
     function add_plugin_action_links( $links ) {
-        $settings_link = '<a href="admin.php?page=menu-slug2">' . __( 'Settings', 'wef' ) . '</a>';
+        $settings_link = '<a href="admin.php?page=enhance-settings">' . __( 'Settings', 'wef' ) . '</a>';
         array_unshift( $links, $settings_link );
         return $links;
     }
@@ -60,10 +60,10 @@ class Admin_Sub_Menu {
     public function register_admin_sub_menu() {
         add_submenu_page(
             'options-general.php',
-            'Page Title',
-            'Menu Title',
+            'Enhance Settings',
+            'Enhance Settings',
             'manage_options',
-            'menu-slug2',
+            'enhance-settings',
             [ $this, 'menu_callback_html' ],
         );
     }
