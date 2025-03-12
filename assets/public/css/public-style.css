@@ -60,6 +60,10 @@
   text-align: center;
 }
 
+.add-to-cart-button-wrapper {
+  margin-left: 20px;
+}
+
 #custom-add-to-cart {
   margin-top: 5px;
   width: 100%;
