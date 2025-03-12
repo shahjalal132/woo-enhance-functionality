@@ -259,6 +259,9 @@ class Woo_Enhance_Functionality {
             }
 
             if ( !empty( $dropdown_values ) ) {
+
+                // TODO: get the product id and update post meta for dropdowns data
+
                 $item_data[] = array(
                     'name'  => $dropdown_text,
                     'value' => implode( ', ', $dropdown_values ), // Combine dropdowns into one line
