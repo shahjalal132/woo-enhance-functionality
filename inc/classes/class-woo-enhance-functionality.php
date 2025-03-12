@@ -203,7 +203,7 @@ class Woo_Enhance_Functionality {
                 ?>
             </div>
 
-            <div class="unit-measurement-wrapper">
+            <div class="unit-measurement-wrapper wef-d-none">
                 <label for="unit_measurement"><?php esc_html_e( 'Unité de mesure', 'wef' ); ?></label>
                 <input type="text" id="unit_measurements" name="unit_measurements"
                     placeholder="<?php echo esc_attr( $unit_placeholder ); ?>">
@@ -213,7 +213,7 @@ class Woo_Enhance_Functionality {
 
                 <div class="quantity-field">
                     <label>Quantité</label>
-                    <input type="number" class="text-center" id="wef-quantity" name="wef-quantity" placeholder="À l'unité">
+                    <input type="number" class="text-center" id="wef-quantity" name="wef-quantity" value="1">
 
                     <div class="product-unit-wrapper text-center">
                         <p class="wef-d-none">Panneau de <span
