@@ -120,6 +120,7 @@ class APIS {
         $category_grillage_rigide_dropdowns_file_path = PLUGIN_BASE_PATH . '/data/category-grillage-rigide-metabox.json';
         $category_kit_occultant_dropdowns_file_path   = PLUGIN_BASE_PATH . '/data/category-kit-occultant-metabox.json';
         $category_portillons_dropdowns_file_path      = PLUGIN_BASE_PATH . '/data/category-portillons-metabox.json';
+        $category_poteaux_dropdowns_file_path         = PLUGIN_BASE_PATH . '/data/category-poteaux-metabox.json';
         $dropdowns_file_path                          = null;
 
         // Assign the correct dropdown file based on category ID
@@ -129,9 +130,14 @@ class APIS {
             $dropdowns_file_path = $category_kit_occultant_dropdowns_file_path;
         } else if ( $category_id == 50 ) {
             $dropdowns_file_path = $category_portillons_dropdowns_file_path;
+        } else if ( $category_id == 40 ) {
+            $dropdowns_file_path = $category_poteaux_dropdowns_file_path;
         }
 
         if ( !empty( $product_ids ) && is_array( $product_ids ) ) {
+
+            // put_program_logs( 'Product IDs for category ' . $category_id . ' are: ' . json_encode( $product_ids ) );
+
             // Load dropdown values from the selected JSON file
             $dropdowns = json_decode( file_get_contents( $dropdowns_file_path ), true );
 
