@@ -29,6 +29,10 @@ class Quote_Generator {
         add_action( 'woocommerce_thankyou', [ $this, 'generate_quote_pdf' ] );
         add_action( 'woocommerce_thankyou', [ $this, 'display_quote_pdf_on_thank_you_page' ] );
         add_action( 'woocommerce_admin_order_data_after_order_details', [ $this, 'display_quote_pdf_in_admin_order_page' ] );
+
+        // Send the quote PDF via email when order is completed.
+        add_action( 'woocommerce_email_order_details', [ $this, 'send_quote_pdf_email' ], 10, 4 );
+
     }
 
     /**
@@ -195,6 +199,71 @@ class Quote_Generator {
         if ( file_put_contents( $file_path, $dompdf->output() ) ) {
             update_post_meta( $order_id, '_quote_pdf_url', $file_url );
         }
+    }
+
+    /**
+     * Send the Quote PDF via Email to the Customer and the Company.
+     */
+    public function send_quote_pdf_email( $order, $sent_to_admin, $plain_text, $email ) {
+        // Get order ID
+        $order_id = $order->get_id();
+
+        // Get PDF file path & URL
+        $pdf_url   = get_post_meta( $order_id, '_quote_pdf_url', true );
+        $file_path = WP_CONTENT_DIR . '/uploads/quotes/order_' . $order_id . '.pdf';
+
+        if ( !file_exists( $file_path ) ) {
+            return;
+        }
+
+        // Get customer details
+        $customer_name    = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
+        $customer_email   = $order->get_billing_email();
+        $customer_phone   = $order->get_billing_phone();
+        $billing_address  = $order->get_formatted_billing_address();
+        $shipping_address = $order->get_formatted_shipping_address();
+
+        // Company email (change this to your company email)
+        // get admin email
+
+        $company_email = get_option( 'admin_email' );
+
+        // Email subject & body
+        $subject = "Votre devis pour la commande #{$order_id}";
+        $message = "
+        <p>Bonjour <strong>{$customer_name}</strong>,</p>
+        <p>Merci pour votre commande. Vous trouverez votre devis en pièce jointe.</p>
+
+        <h3>Détails du client :</h3>
+        <p><strong>Nom :</strong> {$customer_name}</p>
+        <p><strong>Email :</strong> {$customer_email}</p>
+        <p><strong>Téléphone :</strong> {$customer_phone}</p>
+        <p><strong>Adresse de facturation :</strong> {$billing_address}</p>
+        <p><strong>Adresse de livraison :</strong> {$shipping_address}</p>
+
+        <p>Vous pouvez également télécharger votre devis ici : <a href='{$pdf_url}'>Télécharger le PDF</a></p>
+
+        <p>Cordialement,</p>
+        <p><strong>L'équipe de votre entreprise</strong></p>
+    ";
+
+        // Set email headers
+        $headers = [
+            'Content-Type: text/html; charset=UTF-8',
+            'From: Votre Entreprise ' . $company_email,
+            'Reply-To: ' . $company_email,
+        ];
+
+        // Attach the PDF
+        $attachments = [ $file_path ];
+
+        // Send email to customer
+        wp_mail( $customer_email, $subject, $message, $headers, $attachments );
+
+        // put_program_logs( "Subject: {$subject} \n Message: {$message}" );
+
+        // Send email to the company
+        wp_mail( $company_email, "Copie du devis pour la commande #{$order_id}", $message, $headers, $attachments );
     }
 
     /**
