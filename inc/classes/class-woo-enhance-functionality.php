@@ -151,13 +151,16 @@ class Woo_Enhance_Functionality {
             $unit_placeholder = 'Kit pour 1 Panneau de 2m50 de longueur';
         }
 
-        // define under quantity text
-        // $under_quantity_text = !empty( $dropdowns ) ? "Panneau de 2m50 de longueur" : "Rouleau de 25M";
-        $under_quantity_text = "Rouleau de 25M";
+        // prepare under the quantity text
+        $under_quantity_text = '';
+        if ( has_term( 'grillage-rigide', 'product_cat', $product->get_id() ) ) {
+            $under_quantity_text = "Panneau de 2m50 de longueur";
+        } else if ( has_term( 'grillage-souple', 'product_cat', $product->get_id() ) ) {
+            $under_quantity_text = "Rouleau de 25M";
+        }
+
         // get the currency symbol
         $currency_symbol = get_woocommerce_currency_symbol();
-
-        // put_program_logs( $unit_placeholder );
 
         ?>
         <div class="custom-product-options">
