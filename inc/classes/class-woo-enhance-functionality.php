@@ -151,12 +151,20 @@ class Woo_Enhance_Functionality {
             $unit_placeholder = 'Kit pour 1 Panneau de 2m50 de longueur';
         }
 
-        // prepare under the quantity text
+        // Define under quantity text based on conditions
         $under_quantity_text = '';
-        if ( has_term( 'grillage-rigide', 'product_cat', $product->get_id() ) ) {
-            $under_quantity_text = "Panneau de 2m50 de longueur";
-        } else if ( has_term( 'grillage-souple', 'product_cat', $product->get_id() ) ) {
-            $under_quantity_text = "Rouleau de 25M";
+
+        if ( has_term( 'grillage-souple', 'product_cat', $product_id ) ) {
+            $under_quantity_text = "Rouleau de 25m";
+        } elseif ( has_term( 'grillage-rigide', 'product_cat', $product_id ) ) {
+            // Check if the product title contains "Double Fil" or "double fil"
+            if ( stripos( $product_title, 'Double Fil' ) !== false || stripos( $product_title, 'double fil' ) !== false ) {
+                $under_quantity_text = "Panneau de 2m50";
+            } else {
+                $under_quantity_text = "Panneau de 2m50";
+            }
+        } elseif ( has_term( 'kit-occultant', 'product_cat', $product_id ) ) {
+            $under_quantity_text = "Panneau de 2m50";
         }
 
         // get the currency symbol
