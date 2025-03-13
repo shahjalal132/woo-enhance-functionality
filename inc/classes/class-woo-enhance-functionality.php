@@ -152,7 +152,8 @@ class Woo_Enhance_Functionality {
         }
 
         // define under quantity text
-        $under_quantity_text = !empty( $dropdowns ) ? "Panneau de 2m50 de longueur" : "Rouleau de 25M";
+        // $under_quantity_text = !empty( $dropdowns ) ? "Panneau de 2m50 de longueur" : "Rouleau de 25M";
+        $under_quantity_text = "Rouleau de 25M";
         // get the currency symbol
         $currency_symbol = get_woocommerce_currency_symbol();
 
