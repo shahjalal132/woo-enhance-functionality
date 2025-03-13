@@ -151,6 +151,11 @@ class Woo_Enhance_Functionality {
             $unit_placeholder = 'Kit pour 1 Panneau de 2m50 de longueur';
         }
 
+        // define under quantity text
+        $under_quantity_text = !empty( $dropdowns ) ? "Panneau de 2m50 de longueur" : "Rouleau de 25M";
+        // get the currency symbol
+        $currency_symbol = get_woocommerce_currency_symbol();
+
         // put_program_logs( $unit_placeholder );
 
         ?>
@@ -162,8 +167,14 @@ class Woo_Enhance_Functionality {
                 <input type="hidden" name="product_id" id="current_product_id" value="<?php echo esc_attr( $product_id ); ?>">
 
                 <div class="dropdown-not-selected-state">
-                    <p class="wef-d-none">Select a color and height below to display the price </p>
-                    <p>Sélectionnez une couleur et une hauteur ci-dessous pour afficher le prix</p>
+                    <?php
+                    if ( !empty( $dropdowns ) ) {
+                        echo '<p>Sélectionnez une couleur et une hauteur ci-dessous pour afficher le prix</p>';
+                    } else {
+                        $main_price = $price . $currency_symbol;
+                        echo "<h3 class='selected-price'> $main_price </h3>";
+                    }
+                    ?>
                 </div>
 
                 <!-- start: dropdown selected state -->
@@ -218,7 +229,7 @@ class Woo_Enhance_Functionality {
                     <div class="product-unit-wrapper text-center">
                         <p class="wef-d-none">Panneau de <span
                                 class="replace-to-formatted-height"><?php echo esc_html( $formatted_height ); ?></span></p>
-                        <p>Panneau de 2m50 de longueur</p>
+                        <p><?php echo $under_quantity_text; ?></p>
                     </div>
                 </div>
 
