@@ -260,7 +260,13 @@ class Woo_Enhance_Functionality {
 
             if ( !empty( $dropdown_values ) ) {
 
-                // TODO: get the product id and update post meta for dropdowns data
+                // get the product id and update post meta for dropdowns data
+                // get product id
+                $product_id = get_the_ID();
+                // join dropdowns values
+                $dropdowns_values = implode( ', ', $dropdown_values );
+                // update post meta
+                update_post_meta( $product_id, '_selected_dropdowns', $dropdowns_values );
 
                 $item_data[] = array(
                     'name'  => $dropdown_text,
