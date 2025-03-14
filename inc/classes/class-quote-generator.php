@@ -33,6 +33,22 @@ class Quote_Generator {
         // Send the quote PDF via email when order is completed.
         add_action( 'woocommerce_email_order_details', [ $this, 'send_quote_pdf_email' ], 10, 4 );
 
+        // create a shortcode to send test static email
+        add_shortcode( 'test_send_email', [ $this, 'send_test_email' ] );
+
+    }
+
+    public function send_test_email() {
+        $to      = "ffshahjalal@gmail.com";
+        $subject = "Test email sending";
+        $message = "Test Email sending";
+        $headers = array( 'Content-Type: text/html; charset=UTF-8' );
+
+        if ( wp_mail( $to, $subject, $message, $headers ) ) {
+            return "Email sent successfully";
+        } else {
+            return "Email not sent";
+        }
     }
 
     /**
