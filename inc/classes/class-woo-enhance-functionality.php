@@ -212,7 +212,16 @@ class Woo_Enhance_Functionality {
                                 name="custom_dropdown[<?php echo esc_attr( sanitize_title( $dropdown['outer_dropdown_name'] ) ); ?>]"
                                 id="custom_dropdown[<?php echo esc_attr( sanitize_title( $dropdown['outer_dropdown_name'] ) ); ?>]">
                                 <!-- Initial "Select" option -->
-                                <option value=""><?php esc_html_e( 'Sélectionner une hauteur', 'wef' ); ?></option>
+                                <?php
+                                $initial_select_text = '';
+
+                                if ( $dropdown['outer_dropdown_name'] === 'Hauteur' ) {
+                                    $initial_select_text = 'Sélectionner une Hauteur';
+                                } elseif ( $dropdown['outer_dropdown_name'] === 'Couleur' ) {
+                                    $initial_select_text = 'Sélectionner une Couleur';
+                                }
+                                ?>
+                                <option value=""><?= $initial_select_text; ?></option>
 
                                 <?php foreach ( $dropdown['inner_dropdown_items'] as $item ) : ?>
                                     <option value="<?php echo esc_attr( $item['inner_dropdown_value'] ); ?>">
