@@ -30,8 +30,8 @@ class Quote_Generator {
         add_action( 'woocommerce_thankyou', [ $this, 'display_quote_pdf_on_thank_you_page' ] );
         add_action( 'woocommerce_admin_order_data_after_order_details', [ $this, 'display_quote_pdf_in_admin_order_page' ] );
 
-        // Send the quote PDF via email when order is completed.
-        add_action( 'woocommerce_email_order_details', [ $this, 'send_quote_pdf_email' ], 10, 4 );
+        // Send the quote PDF via email when the "Thank You" page is displayed.
+        add_action( 'woocommerce_thankyou', [ $this, 'send_quote_pdf_email' ] );
 
         // create a shortcode to send test static email
         add_shortcode( 'test_send_email', [ $this, 'send_test_email' ] );
@@ -39,7 +39,7 @@ class Quote_Generator {
     }
 
     public function send_test_email() {
-        $to      = "ffshahjalal@gmail.com";
+        $to      = "rjshahjalal132@gmail.com";
         $subject = "Test email sending";
         $message = "Test Email sending";
         $headers = array( 'Content-Type: text/html; charset=UTF-8' );
@@ -219,16 +219,28 @@ class Quote_Generator {
 
     /**
      * Send the Quote PDF via Email to the Customer and the Company.
+     * This function is now triggered by the woocommerce_thankyou hook.
+     *
+     * @param int $order_id The ID of the WooCommerce order.
      */
-    public function send_quote_pdf_email( $order, $sent_to_admin, $plain_text, $email ) {
-        // Get order ID
-        $order_id = $order->get_id();
+    public function send_quote_pdf_email( $order_id ) {
+        if ( !$order_id ) {
+            return;
+        }
+
+        // Get the order object
+        $order = wc_get_order( $order_id );
+        if ( !$order ) {
+            put_program_logs( 'ID de commande introuvable pour envoyer le devis PDF par email' );
+            return;
+        }
 
         // Get PDF file path & URL
         $pdf_url   = get_post_meta( $order_id, '_quote_pdf_url', true );
-        $file_path = WP_CONTENT_DIR . '/uploads/quotes/order_' . $order_id . '.pdf';
+        $file_path = WP_CONTENT_DIR . '/uploads/quotes/commande_' . $order_id . '.pdf';
 
         if ( !file_exists( $file_path ) ) {
+            put_program_logs( 'Fichier PDF introuvable pour la commande #' . $order_id );
             return;
         }
 
@@ -240,33 +252,112 @@ class Quote_Generator {
         $shipping_address = $order->get_formatted_shipping_address();
 
         // Company email (change this to your company email)
-        // get admin email
-
         $company_email = get_option( 'admin_email' );
 
-        // Email subject & body
+        // Email subject
         $subject = "Votre devis pour la commande #{$order_id}";
+
+        // Email body with simple design
         $message = "
-        <p>Bonjour <strong>{$customer_name}</strong>,</p>
-        <p>Merci pour votre commande. Vous trouverez votre devis en pièce jointe.</p>
-
-        <h3>Détails du client :</h3>
-        <p><strong>Nom :</strong> {$customer_name}</p>
-        <p><strong>Email :</strong> {$customer_email}</p>
-        <p><strong>Téléphone :</strong> {$customer_phone}</p>
-        <p><strong>Adresse de facturation :</strong> {$billing_address}</p>
-        <p><strong>Adresse de livraison :</strong> {$shipping_address}</p>
-
-        <p>Vous pouvez également télécharger votre devis ici : <a href='{$pdf_url}'>Télécharger le PDF</a></p>
-
-        <p>Cordialement,</p>
-        <p><strong>L'équipe de votre entreprise</strong></p>
-    ";
+        <!DOCTYPE html>
+        <html lang='fr'>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Devis pour la commande #{$order_id}</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    color: #333;
+                    margin: 0;
+                    padding: 0;
+                }
+                .email-container {
+                    max-width: 600px;
+                    margin: 20px auto;
+                    background-color: #ffffff;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+                .email-header {
+                    text-align: center;
+                    padding-bottom: 20px;
+                    border-bottom: 1px solid #ddd;
+                }
+                .email-header h1 {
+                    color: #444;
+                    font-size: 24px;
+                    margin: 0;
+                }
+                .email-body {
+                    padding: 20px 0;
+                }
+                .email-body h3 {
+                    color: #555;
+                    font-size: 18px;
+                    margin-bottom: 10px;
+                }
+                .email-body p {
+                    font-size: 14px;
+                    line-height: 1.6;
+                    margin: 0 0 10px;
+                }
+                .email-footer {
+                    text-align: center;
+                    padding-top: 20px;
+                    border-top: 1px solid #ddd;
+                    font-size: 12px;
+                    color: #777;
+                }
+                .button {
+                    display: inline-block;
+                    padding: 10px 20px;
+                    margin: 20px 0;
+                    background-color: #0073e6;
+                    color: #ffffff !important;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    font-size: 16px;
+                }
+                .button:hover {
+                    background-color: #005bb5;
+                }
+            </style>
+        </head>
+        <body>
+            <div class='email-container'>
+                <div class='email-header'>
+                    <h1>Devis pour la commande #{$order_id}</h1>
+                </div>
+                <div class='email-body'>
+                    <p>Bonjour <strong>{$customer_name}</strong>,</p>
+                    <p>Merci pour votre commande. Vous trouverez votre devis en pièce jointe.</p>
+    
+                    <h3>Détails du client :</h3>
+                    <p><strong>Nom :</strong> {$customer_name}</p>
+                    <p><strong>Email :</strong> {$customer_email}</p>
+                    <p><strong>Téléphone :</strong> {$customer_phone}</p>
+                    <p><strong>Adresse de facturation :</strong> {$billing_address}</p>
+                    <p><strong>Adresse de livraison :</strong> {$shipping_address}</p>
+    
+                    <p>Vous pouvez également télécharger votre devis ici :</p>
+                    <a href='{$pdf_url}' class='button'>Télécharger le PDF</a>
+                </div>
+                <div class='email-footer'>
+                    <p>Merci pour votre confiance. Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+                    <p>Cordialement,<br><strong>L'équipe de votre entreprise</strong></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
 
         // Set email headers
         $headers = [
             'Content-Type: text/html; charset=UTF-8',
-            'From: Votre Entreprise ' . $company_email,
+            'From: Votre Entreprise <' . $company_email . '>',
             'Reply-To: ' . $company_email,
         ];
 
@@ -274,12 +365,18 @@ class Quote_Generator {
         $attachments = [ $file_path ];
 
         // Send email to customer
-        wp_mail( $customer_email, $subject, $message, $headers, $attachments );
-
-        // put_program_logs( "Subject: {$subject} \n Message: {$message}" );
+        if ( wp_mail( $customer_email, $subject, $message, $headers, $attachments ) ) {
+            // put_program_logs( 'Email envoyé avec succès au client pour la commande #' . $order_id );
+        } else {
+            // put_program_logs( 'Échec de l\'envoi de l\'email au client pour la commande #' . $order_id );
+        }
 
         // Send email to the company
-        wp_mail( $company_email, "Copie du devis pour la commande #{$order_id}", $message, $headers, $attachments );
+        if ( wp_mail( $company_email, "Copie du devis pour la commande #{$order_id}", $message, $headers, $attachments ) ) {
+            // put_program_logs( 'Email envoyé avec succès à l\'entreprise pour la commande #' . $order_id );
+        } else {
+            // put_program_logs( 'Échec de l\'envoi de l\'email à l\'entreprise pour la commande #' . $order_id );
+        }
     }
 
     /**
